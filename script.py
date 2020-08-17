@@ -1,10 +1,15 @@
 import telebot,urllib.request,urllib.parse,re,requests 
 from telebot import apihelper 
+import os
 
-#bot = telebot.TeleBot("866798529:AAF_PnyLlZUhHR3SO08z-FFUAHtUKm1Xs38")
-chat_id = '-1001206108788'
-TG_PROXY = 'https://103.241.156.250:8080'
-TG_BOT_TOKEN = '866798529:AAF_PnyLlZUhHR3SO08z-FFUAHtUKm1Xs38'
+# #bot = telebot.TeleBot("866798529:AAF_PnyLlZUhHR3SO08z-FFUAHtUKm1Xs38")
+# chat_id = '-1001206108788'
+# TG_PROXY = 'https://103.241.156.250:8080'
+# TG_BOT_TOKEN = '866798529:AAF_PnyLlZUhHR3SO08z-FFUAHtUKm1Xs38'
+
+chat_id = os.environ.get('chat_id')
+TG_PROXY = os.environ.get('TG_PROXY')
+TG_BOT_TOKEN = os.environ.get('TG_BOT_TOKEN')
 
 apihelper.proxy = {'http': TG_PROXY}
 
