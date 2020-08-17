@@ -2,11 +2,6 @@ import telebot,urllib.request,urllib.parse,re,requests
 from telebot import apihelper 
 import os
 
-# #bot = telebot.TeleBot("866798529:AAF_PnyLlZUhHR3SO08z-FFUAHtUKm1Xs38")
-# chat_id = '-1001206108788'
-# TG_PROXY = 'https://103.241.156.250:8080'
-# TG_BOT_TOKEN = '866798529:AAF_PnyLlZUhHR3SO08z-FFUAHtUKm1Xs38'
-
 chat_id = os.environ.get('chat_id')
 TG_PROXY = os.environ.get('TG_PROXY')
 TG_BOT_TOKEN = os.environ.get('TG_BOT_TOKEN')
@@ -14,7 +9,6 @@ TG_BOT_TOKEN = os.environ.get('TG_BOT_TOKEN')
 apihelper.proxy = {'http': TG_PROXY}
 
 bot = telebot.TeleBot(TG_BOT_TOKEN)
-
 
 @bot.message_handler(func=lambda m: True)
 def image(message):
@@ -26,6 +20,5 @@ def image(message):
     html = response.read().decode('utf8')
     links = re.findall('murl&quot;:&quot;(.*?)&quot;',html)
     print(links[0])
-    #bot.send_message(chat_id,query)
     bot.send_photo(chat_id,links[0])
 bot.polling(none_stop=True,timeout=123)
