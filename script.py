@@ -23,5 +23,7 @@ def image(message):
         print(links[0])
         bot.send_photo(chat_id,links[0])
     except Excpetion as err:
+        exception_type = type(err).__name__
+        print(exception_type)
         pass
 bot.polling(none_stop=True,timeout=123)
