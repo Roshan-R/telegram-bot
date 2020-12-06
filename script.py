@@ -1,5 +1,6 @@
 import telebot,urllib.request,urllib.parse,re,requests 
 from telebot import apihelper 
+from duck_api import search
 import os
 
 chat_id = os.environ.get('chat_id')
@@ -11,17 +12,28 @@ apihelper.proxy = {'http': TG_PROXY}
 bot = telebot.TeleBot(TG_BOT_TOKEN)
 
 @bot.message_handler(func=lambda m: True)
-def image(message):
+def image(message, index=0):
+    """ receives message from bot and sends back first image result from duckduckgo """
+
+    message = message.text
+
     try:
-        print("Query : ",message.text)
-        urlopenheader={ 'User-Agent' : 'Mozilla/5.0 (X11; Fedora; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'}
-        request_url='https://duckduckgo.com/?q=' + message.text.replace(' ','+') + '&t=h_&iar=images&iax=images&ia=images'
-        request=urllib.request.Request(request_url,None,headers=urlopenheader)
-        response=urllib.request.urlopen(request)
-        html = response.read().decode('utf8')
-        links = re.findall('murl&quot;:&quot;(.*?)&quot;',html)
-        print(links[0])
-        bot.send_photo(chat_id,links[0])
-    except Excpetion as err:
-        pass
+        result_no = message.split(' ')[-1]
+        index = int(result_no)
+        message = message[:(-1*len(result_no))]
+        print(str(index))
+
+    except Exception as e:
+        index = 0
+        print(str(e))
+
+    try:
+        print("Query : ",message)
+
+        bot.send_photo(chat_id, search(message, index=index))
+
+    except Exception as err:
+        print(str(err))
+        
+
 bot.polling(none_stop=True,timeout=123)
